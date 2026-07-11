@@ -1,12 +1,18 @@
 [project]
 name = "koyu-cli"
 version = "0.1.0"
-description = "koyu CLI — fetch public templates, pull manifest datasets, push results. No workspace semantics."
+description = "The koyu command line: move robot-learning data and templates between koyu.dev and any machine. Umbrella for all koyu verbs."
+readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "httpx>=0.27",
     "blake3>=1.0",
 ]
+
+[project.urls]
+Homepage = "https://koyu.dev"
+Documentation = "https://koyu.dev/docs"
+Repository = "https://github.com/vdesai2014/koyu-cli"
 
 [project.scripts]
 koyu = "koyu_cli.main:main"
