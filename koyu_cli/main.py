@@ -41,8 +41,10 @@ PLUGIN_HINTS = {
          "set", "get", "tail", "frame"),
         ("koyu-runtime", "git clone koyu-runtime and `pip install -e .` "
                          "(see koyu.dev/docs/runtime)")),
-    "ingest": ("koyu-workspace", "git clone koyu-workspace and `pip install -e .` "
-                                 "(see koyu.dev/docs/workspace)"),
+    **dict.fromkeys(
+        ("ingest", "clone", "sync-push", "sync-pull"),
+        ("koyu-workspace", "git clone koyu-workspace and `pip install -e .` "
+                           "(see koyu.dev/docs/workspace)")),
 }
 
 _VALUE_FLAGS = {"--token", "--api"}     # global flags that consume the next token
