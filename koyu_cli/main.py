@@ -38,7 +38,7 @@ CORE_VERBS = {"ls", "fetch", "pull", "push", "whoami"}
 PLUGIN_HINTS = {
     **dict.fromkeys(
         ("up", "down", "status", "restart", "apply", "logs",
-         "set", "get", "tail", "frame"),
+         "set", "get", "tail", "frame", "context"),
         ("koyu-runtime", "git clone koyu-runtime and `pip install -e .` "
                          "(see koyu.dev/docs/runtime)")),
     **dict.fromkeys(
