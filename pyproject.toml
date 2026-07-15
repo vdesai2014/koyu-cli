@@ -1,6 +1,6 @@
 [project]
 name = "koyu-cli"
-version = "0.1.1"
+version = "0.1.2"
 description = "The koyu command line: move robot-learning data and templates between koyu.dev and any machine. Umbrella for all koyu verbs."
 readme = "README.md"
 requires-python = ">=3.10"
