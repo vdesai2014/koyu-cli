@@ -41,6 +41,13 @@ def _entity_ls(client: Client, kind: str, eid: str) -> dict:
             for run in runs:
                 log(f"    {run['id']}  {run.get('name', '')}")
         result["runs"] = [{"id": r["id"], "name": r.get("name")} for r in runs]
+    if kind == "runs":
+        manifests = entity.get("manifest_ids") or []
+        if manifests:
+            log("  linked manifests (koyu ls <id> for metadata):")
+            for mf_id in manifests:
+                log(f"    {mf_id}")
+        result["manifest_ids"] = manifests
     return result
 
 
