@@ -45,7 +45,8 @@ then fetch exactly what it needs.
 `manifest.json` + `episodes/<ep_id>/{data.parquet, <camera>.mp4…, episode.json}` —
 directly readable by any template's vendored `dataloader.py`. Downloads stream
 to disk, run concurrently, and resume (already-current files are skipped), so
-re-running a pull is always safe.
+re-running a pull is always safe. `episode.json` is generated locally from the
+cloud's canonical episode metadata; it is not stored as a redundant blob.
 
 `push` is blake3-diffed two-step sync: unchanged files cost nothing, large files
 upload multipart automatically, and nothing is visible until commit succeeds.
