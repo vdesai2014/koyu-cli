@@ -24,15 +24,11 @@ SCHEMA_VERSION = 1
 
 
 def _episode_sidecar(manifest: dict, detail: dict) -> dict:
-    """Materialize the cloud's canonical episode metadata for local readers.
-
-    ``recorded_at`` and ``record_hz`` are intentionally absent: the episode API
-    does not retain those capture-time values, and upload ``created_at`` is not a
-    valid substitute for recording time.
-    """
+    """Materialize the cloud's canonical capture metadata for local readers."""
     sidecar = {
         "schema_version": SCHEMA_VERSION,
         "capture_id": detail["id"].removeprefix("ep_"),
+        "recorded_at": detail["recorded_at"],
         "length": detail["length"],
         "task": detail.get("task"),
         "task_description": detail.get("task_description"),
@@ -47,6 +43,8 @@ def _episode_sidecar(manifest: dict, detail: dict) -> dict:
     }
     if manifest.get("fps") is not None:
         sidecar["fps"] = manifest["fps"]
+    if detail.get("record_hz") is not None:
+        sidecar["record_hz"] = detail["record_hz"]
     return sidecar
 
 
@@ -126,7 +124,8 @@ def pull(client: Client, ref: str, dest: Path,
         "episode_count": len(episodes),
         "success_rate": manifest.get("success_rate"),
         "episodes": [{k: e.get(k) for k in
-                      ("id", "length", "task", "task_description", "reward", "size_bytes")}
+                      ("id", "length", "recorded_at", "record_hz", "task",
+                       "task_description", "reward", "size_bytes")}
                      for e in episodes],
     }
     (dest / "manifest.json").write_text(json.dumps(local, indent=2) + "\n")
