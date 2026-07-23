@@ -35,7 +35,9 @@ class FakeClient:
         "reward": 1.0,
         "features": {"action": {"dtype": "float32", "shape": [7]}},
         "size_bytes": 4,
-        "created_at": "2026-07-22T00:00:00Z",
+        "recorded_at": "2026-07-21T23:59:00Z",
+        "record_hz": 20.0,
+        "uploaded_at": "2026-07-22T00:00:00Z",
         "files": {
             "data.parquet": {"url": "blob:data", "size": 4},
             "eef.npy": {"url": "blob:eef", "size": 3},
@@ -53,7 +55,8 @@ class FakeClient:
     def paginate(self, path: str, list_key: str, params=None) -> list[dict]:
         assert list_key == "episodes"
         return [{k: self.episode.get(k) for k in (
-            "id", "length", "task", "task_description", "reward", "size_bytes"
+            "id", "length", "recorded_at", "record_hz", "task",
+            "task_description", "reward", "size_bytes"
         )}]
 
     def download(self, url: str, dest: Path) -> int:
@@ -76,8 +79,9 @@ class PullSidecarTests(unittest.TestCase):
             self.assertEqual(sidecar["encoding"], {"video_codec": "libx264"})
             self.assertEqual(sidecar["source_run_id"], FakeClient.episode["source_run_id"])
             self.assertEqual(sidecar["reward"], 1.0)
-            self.assertNotIn("recorded_at", sidecar)
-            self.assertNotIn("record_hz", sidecar)
+            self.assertEqual(sidecar["recorded_at"], FakeClient.episode["recorded_at"])
+            self.assertEqual(sidecar["record_hz"], 20.0)
+            self.assertNotIn("uploaded_at", sidecar)
             self.assertTrue((dest / "episodes" / EP_ID / "eef.npy").is_file())
             self.assertEqual(result["sidecars_written"], 1)
 
